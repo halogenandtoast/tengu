@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["halogenandtoast@gmail.com"]
   spec.description   = %q{A truly object oriented testing library}
   spec.summary       = %q{A truly object oriented testing library}
-  spec.homepage      = ""
+  spec.homepage      = "http://github.com/halogenandtoast/tengu"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
