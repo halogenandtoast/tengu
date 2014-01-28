@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
+
+require "tengu"
+
+formatter = Tengu::BaseFormatter.new
+runner = Tengu::Runner.new
+
+if ARGV.count < 1
+  files = Dir.glob("spec/**/*_spec.rb").map { |filename| ::File.open(filename, "r") }
+else
+  files = ARGV.map { |arg| ::File.open(arg, "r") }
+end
+
+runner.run(files, [formatter])
