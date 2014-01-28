@@ -10,7 +10,7 @@ module Tengu
     end
 
     def reset_overrides
-      @overrides.each do |object, method|
+      @overrides.reverse.each do |object, method|
         object.instance_eval do
           define_singleton_method method.name, method
         end
@@ -19,7 +19,7 @@ module Tengu
 
     def run(ios, formatters = [])
       @files = ios.map { |io| Tengu::File.new(io) }
-      formatters.each { |formatter| formatter.notify(:start, self) }
+      formatters.each { |formatter| formatter.notify(:started, self) }
       @files.each { |file| file.run(self, formatters) }
       result = Result.new(@files)
       formatters.each { |formatter| formatter.notify(:finished, result) }

@@ -1,6 +1,8 @@
 module Tengu
   class Matcher
-    def initialize(&block)
+    attr_reader :description
+    def initialize(description, &block)
+      @description = description
       @block = block
     end
 

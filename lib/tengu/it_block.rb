@@ -6,6 +6,7 @@ require "tengu/receiver"
 module Tengu
   class ItBlock
     include Matchers
+    attr_reader :description, :expectations
 
     def initialize(description, block)
       @description = description
@@ -29,7 +30,7 @@ module Tengu
       Receiver.new(message)
     end
 
-    def double(identifier)
+    def double(identifier = nil)
       Double.new(identifier)
     end
 
