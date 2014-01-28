@@ -1,7 +1,7 @@
 require "bundler/gem_tasks"
 
-require 'rspec/core/rake_task'
+require 'tengu/rake_task'
 
-RSpec::Core::RakeTask.new(:spec)
+Tengu::RakeTask.new(:spec)
 
 task default: :spec
