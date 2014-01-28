@@ -9,6 +9,10 @@ module Tengu
       load_test_cases
     end
 
+    def include(included_module)
+      singleton_class.send(:include, included_module)
+    end
+
     def test_case_count
       @test_cases.count
     end
@@ -21,18 +25,18 @@ module Tengu
       @after_hooks << block
     end
 
-    def run(listeners = [])
-      run_test_cases(listeners)
+    def run(runner, listeners = [])
+      run_test_cases(runner, listeners)
     end
 
     def load_test_cases
       instance_eval &@block
     end
 
-    def run_test_cases(listeners = [])
+    def run_test_cases(runner, listeners = [])
       @test_cases.each do |test_case|
         @before_hooks.each { |hook| hook.call }
-        test_case.run(listeners)
+        test_case.run(runner, listeners)
         @after_hooks.each { |hook| hook.call }
       end
     end

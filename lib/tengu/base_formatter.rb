@@ -12,17 +12,24 @@ module Tengu
 
     def started(runner)
       @started = Time.now
-      puts "Running #{runner.test_case_count} case#{"s" unless runner.test_case_count == 1}"
     end
 
     def finished(result)
       puts
       puts "Finished in %0.5f seconds" % [Time.now - @started]
-      puts "#{result.success_count}/#{result.total_count} cases"
-      puts "#{result.failure_count} failure#{"s" unless result.failure_count == 1}"
+      puts "#{display(result.total_count, "example")}, #{display(result.failure_count, "failure")}"
       if result.pending_count > 0
         puts "#{result.pending_count} pending"
       end
+    end
+
+    def display(count, word)
+      "#{count} " +
+        if count == 1
+          word
+        else
+          word + "s"
+        end
     end
   end
 end

@@ -10,8 +10,8 @@ module Tengu
       @describes.inject(0) { |sum, describe| sum += describe.test_case_count }
     end
 
-    def run(listeners = [])
-      run_tests(listeners)
+    def run(runner, listeners = [])
+      run_tests(runner, listeners)
     end
 
     def code
@@ -22,8 +22,8 @@ module Tengu
       instance_eval(code)
     end
 
-    def run_tests(listeners= [])
-      @describes.each { |describe| describe.run(listeners) }
+    def run_tests(runner, listeners= [])
+      @describes.each { |describe| describe.run(runner, listeners) }
     end
 
     def describe(description, &block)

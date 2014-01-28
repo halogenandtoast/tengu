@@ -1,4 +1,7 @@
 require "tengu/matchers"
+require "tengu/double"
+require "tengu/allow"
+require "tengu/receiver"
 
 module Tengu
   class ItBlock
@@ -18,8 +21,22 @@ module Tengu
       end
     end
 
-    def run(listeners = [])
+    def allow(object)
+      Allow.new(@runner, object)
+    end
+
+    def receive(message)
+      Receiver.new(message)
+    end
+
+    def double(identifier)
+      Double.new(identifier)
+    end
+
+    def run(runner, listeners = [])
+      @runner = runner
       instance_eval(&@block)
+      @runner.reset_overrides
       notify(listeners)
     end
 
