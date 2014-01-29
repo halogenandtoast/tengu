@@ -20,6 +20,10 @@ describe Tengu::ItBlock do
   end
 
   it "can define methods" do
+    pending
+  end
 
+  it "fails when error is thrown" do
+    pending
   end
 end

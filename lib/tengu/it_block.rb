@@ -15,16 +15,26 @@ module Tengu
       @success = true
       @pending = false
       @expectations = []
+      @error = nil
     end
 
     def run(listeners = [])
       @listeners = listeners
-      instance_eval(&@block)
+      begin
+        instance_eval(&@block)
+      rescue Exception => e
+        @error = e
+        @success = false
+      end
       notify(@listeners)
     end
 
+    def errored?
+      @error
+    end
+
     def success?
-      unless pending?
+      unless pending? || errored?
         @expectations.all? { |expectation| expectation.success? }
       end
     end

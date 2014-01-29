@@ -13,6 +13,10 @@ describe "True" do
     pending
   end
 
+  it "fails examples with errors" do
+    raise
+  end
+
   xit "skips others" do
     expect($foo).to eq("bar")
   end
