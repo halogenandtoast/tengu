@@ -1,24 +1,11 @@
 # Tengu
 
-TODO: Write a gem description
+An object oriented test library with similar syntax to RSpec
 
-## Installation
+## About
 
-Add this line to your application's Gemfile:
+This is a work in progress and isn't suggested for actual use.
 
-    gem 'tengu'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install tengu
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Contributing
 

@@ -25,9 +25,5 @@ module Tengu
       formatters.each { |formatter| formatter.notify(:finished, result) }
       result
     end
-
-    def test_case_count
-      @test_case_count ||= @files.inject(0) { |sum, file| sum += file.test_case_count }
-    end
   end
 end

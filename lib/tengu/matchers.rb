@@ -1,3 +1,5 @@
+require "tengu/receive_matcher"
+
 module Tengu
   module Matchers
     def be_true
@@ -8,20 +10,28 @@ module Tengu
       eq(false)
     end
 
-    def be_false
+    def be_nil
       eq(nil)
     end
 
+    def have_received(message)
+      ReceiveMatcher.new(message, "have received #{message.inspect}") { |object| object._tengu_received?(message) }
+    end
+
+    def include(value)
+      Matcher.new("include #{value.inspect}") { |object| object.include?(value) }
+    end
+
     def eq(value)
-      Matcher.new("to be eq to #{value.inspect}") { |object| object == value }
+      Matcher.new("be eq to #{value.inspect}") { |object| object == value }
     end
 
     def eql(value)
-      Matcher.new("to be eql to #{value.inspect}")  { |object| object.eql?(value) }
+      Matcher.new("be eql to #{value.inspect}")  { |object| object.eql?(value) }
     end
 
     def equal(value)
-      Matcher.new("to be equal to #{value.inspect}") { |object| object.equal?(value) }
+      Matcher.new("be equal to #{value.inspect}") { |object| object.equal?(value) }
     end
 
     def be(value = nil)

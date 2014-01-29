@@ -24,9 +24,9 @@ module Tengu
 
     def message
       if @positive
-        puts "expected #{@object} to #{@matcher.description}"
+        "expected #{@object.inspect} to #{@matcher.description}"
       else
-        puts "expected #{@object} not to #{@matcher.description}"
+        "expected #{@object.inspect} not to #{@matcher.description}"
       end
     end
   end

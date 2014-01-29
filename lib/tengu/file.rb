@@ -6,13 +6,23 @@ module Tengu
       load_tests
     end
 
-    def test_case_count
-      @describes.inject(0) { |sum, describe| sum += describe.test_case_count }
-    end
-
     def run(runner, listeners = [])
       run_tests(runner, listeners)
     end
+
+    def success_count
+      @describes.inject(0) { |sum, n| sum += n.success_count }
+    end
+
+    def test_count
+      @describes.inject(0) { |sum, n| sum += n.test_count }
+    end
+
+    def pending_count
+      @describes.inject(0) { |sum, n| sum += n.pending_count }
+    end
+
+    private
 
     def code
       @code ||= @io.read
@@ -28,18 +38,6 @@ module Tengu
 
     def describe(description, &block)
       @describes << DescribeBlock.new(description, block)
-    end
-
-    def success_count
-      @describes.inject(0) { |sum, n| sum += n.success_count }
-    end
-
-    def test_count
-      @describes.inject(0) { |sum, n| sum += n.test_count }
-    end
-
-    def pending_count
-      @describes.inject(0) { |sum, n| sum += n.pending_count }
     end
   end
 end

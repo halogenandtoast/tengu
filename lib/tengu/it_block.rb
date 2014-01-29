@@ -16,11 +16,24 @@ module Tengu
       @expectations = []
     end
 
+    def run(runner, listeners = [])
+      @runner = runner
+      instance_eval(&@block)
+      @runner.reset_overrides
+      notify(listeners)
+    end
+
     def success?
       unless pending?
         @expectations.all? { |expectation| expectation.success? }
       end
     end
+
+    def pending?
+      @pending
+    end
+
+    private
 
     def allow(object)
       Allow.new(@runner, object)
@@ -30,15 +43,8 @@ module Tengu
       Receiver.new(message)
     end
 
-    def double(identifier = nil)
-      Double.new(identifier)
-    end
-
-    def run(runner, listeners = [])
-      @runner = runner
-      instance_eval(&@block)
-      @runner.reset_overrides
-      notify(listeners)
+    def double(identifier = nil, args = {})
+      Double.new(identifier, args)
     end
 
     def notify(listeners)
@@ -55,10 +61,6 @@ module Tengu
       else
         :failure
       end
-    end
-
-    def pending?
-      @pending
     end
 
     def pending
