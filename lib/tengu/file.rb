@@ -6,8 +6,8 @@ module Tengu
       load_tests
     end
 
-    def run(runner, listeners = [])
-      run_tests(runner, listeners)
+    def run(listeners = [])
+      run_tests(listeners)
     end
 
     def success_count
@@ -32,8 +32,8 @@ module Tengu
       instance_eval(code)
     end
 
-    def run_tests(runner, listeners= [])
-      @describes.each { |describe| describe.run(runner, listeners) }
+    def run_tests(listeners= [])
+      @describes.each { |describe| describe.run(listeners) }
     end
 
     def describe(description, &block)

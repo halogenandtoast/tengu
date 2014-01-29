@@ -9,8 +9,8 @@ module Tengu
       load_test_cases
     end
 
-    def run(runner, listeners = [])
-      run_test_cases(runner, listeners)
+    def run(listeners = [])
+      run_test_cases(listeners)
     end
 
     def success_count
@@ -48,16 +48,16 @@ module Tengu
       instance_eval &@block
     end
 
-    def run_test_cases(runner, listeners = [])
+    def run_test_cases(listeners = [])
       @test_cases.each do |test_case|
         @before_each_hooks.each { |hook| hook.call }
-        test_case.run(runner, listeners)
+        test_case.run(listeners)
         @after_each_hooks.each { |hook| hook.call }
       end
     end
 
     def it(description = nil, &block)
-      @test_cases << ItBlock.new(description, block)
+      @test_cases << ItBlock.new(self, description, block)
     end
 
     def xit(description, &block); end

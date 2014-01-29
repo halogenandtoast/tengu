@@ -18,7 +18,7 @@ module Tengu
       self
     end
 
-    def setup_allow(runner, object)
+    def setup_allow(listeners, object)
       unless object.respond_to?(:_tengu_received?)
         object.instance_eval do
           define_singleton_method(:_tengu_received) do
@@ -43,7 +43,7 @@ module Tengu
         end
       else
         original_method = object.method(@message.to_sym)
-        runner.record_override(object, original_method)
+        listeners.each { |listener| listener.notify(:override, [object, original_method]) }
         object.instance_eval do
           define_singleton_method message, -> (*args) { _tengu_received[message] << args; return_value }
         end

@@ -15,8 +15,8 @@ describe Tengu::File do
     code = double(File, read: "describe('test') {}")
     file = File.new(code)
     runner = double
-    file.run(runner)
-    expect(describe_block).to have_received(:run).with(runner, [])
+    file.run([runner])
+    expect(describe_block).to have_received(:run).with([runner])
   end
 
   it "returns the success count" do

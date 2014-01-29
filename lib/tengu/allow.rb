@@ -1,12 +1,12 @@
 module Tengu
   class Allow
-    def initialize(runner, object)
-      @runner = runner
+    def initialize(listeners, object)
+      @listeners = listeners
       @object = object
     end
 
     def to(receiver)
-      receiver.setup_allow(@runner, @object)
+      receiver.setup_allow(@listeners, @object)
     end
   end
 end

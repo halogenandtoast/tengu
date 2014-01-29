@@ -18,4 +18,8 @@ describe Tengu::ItBlock do
   it "returns pending" do
     pending
   end
+
+  it "can define methods" do
+
+  end
 end

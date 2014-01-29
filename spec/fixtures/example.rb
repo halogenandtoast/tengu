@@ -17,6 +17,15 @@ describe "True" do
     expect($foo).to eq("bar")
   end
 
+  it "can call methods" do
+    wombat
+    expect($foo).to eq("numbat")
+  end
+
+  def wombat
+    $foo = "numbat"
+  end
+
   after(:each) do
     $foo = "bar"
   end
