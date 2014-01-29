@@ -4,8 +4,8 @@ module Tengu
       @description = description
       @block = block
       @test_cases = []
-      @before_hooks = []
-      @after_hooks = []
+      @before_each_hooks = []
+      @after_each_hooks = []
       load_test_cases
     end
 
@@ -31,12 +31,16 @@ module Tengu
       singleton_class.send(:include, included_module)
     end
 
-    def before(&block)
-      @before_hooks << block
+    def before(type, &block)
+      if type == :each
+        @before_each_hooks << block
+      end
     end
 
-    def after(&block)
-      @after_hooks << block
+    def after(type, &block)
+      if type == :each
+        @after_each_hooks << block
+      end
     end
 
 
@@ -46,9 +50,9 @@ module Tengu
 
     def run_test_cases(runner, listeners = [])
       @test_cases.each do |test_case|
-        @before_hooks.each { |hook| hook.call }
+        @before_each_hooks.each { |hook| hook.call }
         test_case.run(runner, listeners)
-        @after_hooks.each { |hook| hook.call }
+        @after_each_hooks.each { |hook| hook.call }
       end
     end
 

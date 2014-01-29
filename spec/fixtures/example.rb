@@ -1,7 +1,7 @@
 $foo = "bar"
 
 describe "True" do
-  before do
+  before(:each) do
     $foo = "baz"
   end
 
@@ -17,7 +17,7 @@ describe "True" do
     expect($foo).to eq("bar")
   end
 
-  after do
+  after(:each) do
     $foo = "bar"
   end
 end
