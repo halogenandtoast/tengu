@@ -1,4 +1,4 @@
-# Tengu
+# Tengu 天狗 :japanese_goblin:
 
 An object oriented test library with similar syntax to RSpec
 
