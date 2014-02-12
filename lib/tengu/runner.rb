@@ -29,9 +29,7 @@ module Tengu
 
     def reset_overrides
       @overrides.reverse.each do |object, method|
-        object.instance_eval do
-          define_singleton_method method.name, method
-        end
+        object.define_singleton_method method.name, method
       end
     end
   end

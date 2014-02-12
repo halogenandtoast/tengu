@@ -36,9 +36,7 @@ module Tengu
     def setup_normal_object(listeners, object, message, return_value)
       original_method = object.method(message.to_sym)
       listeners.each { |listener| listener.notify(:override, [object, original_method]) }
-      object.instance_eval do
-        define_singleton_method message, -> (*args) { _tengu_received[message] << args; return_value }
-      end
+      object.define_singleton_method message, -> (*args) { _tengu_received[message] << args; return_value }
     end
 
     def setup_tengu_for(object)
@@ -49,21 +47,17 @@ module Tengu
     end
 
     def setup_tengu_received(object)
-      object.instance_eval do
-        define_singleton_method(:_tengu_received) do
-          @_tengu_received ||= Hash.new { |hash, key| hash[key] = [] }
-        end
+      object.define_singleton_method(:_tengu_received) do
+        @_tengu_received ||= Hash.new { |hash, key| hash[key] = [] }
       end
     end
 
     def setup_tengu_received?(object)
-      object.instance_eval do
-        define_singleton_method(:_tengu_received?) do |message, args = []|
-          if args.length > 0
-            _tengu_received[message] && _tengu_received[message].include?(args)
-          else
-            _tengu_received.keys.include?(message)
-          end
+      object.define_singleton_method(:_tengu_received?) do |message, args = []|
+        if args.length > 0
+          _tengu_received[message] && _tengu_received[message].include?(args)
+        else
+          _tengu_received.keys.include?(message)
         end
       end
     end
