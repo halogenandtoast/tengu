@@ -41,24 +41,7 @@ module Tengu
 
     def setup_tengu_for(object)
       unless object.respond_to?(:_tengu_received?)
-        setup_tengu_received(object)
-        setup_tengu_received?(object)
-      end
-    end
-
-    def setup_tengu_received(object)
-      object.define_singleton_method(:_tengu_received) do
-        @_tengu_received ||= Hash.new { |hash, key| hash[key] = [] }
-      end
-    end
-
-    def setup_tengu_received?(object)
-      object.define_singleton_method(:_tengu_received?) do |message, args = []|
-        if args.length > 0
-          _tengu_received[message] && _tengu_received[message].include?(args)
-        else
-          _tengu_received.keys.include?(message)
-        end
+        object.singleton_class.send(:include, Tengu::Internals)
       end
     end
   end

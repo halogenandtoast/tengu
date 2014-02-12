@@ -1,3 +1,4 @@
+require "tengu/internals"
 require "tengu/base_formatter"
 require "tengu/composite_matcher"
 require "tengu/describe_block.rb"
