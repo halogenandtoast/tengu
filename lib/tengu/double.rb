@@ -7,6 +7,10 @@ module Tengu
       end
     end
 
+    def _tengu_stub_method(message, return_value)
+      define_singleton_method message, -> (*args) { _tengu_received[message] << args; return_value }
+    end
+
     def _tengu_received
       @_tengu_received ||= Hash.new { |hash, key| hash[key] = [] }
     end
