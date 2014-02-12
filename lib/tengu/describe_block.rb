@@ -1,11 +1,13 @@
+require 'pry'
 module Tengu
   class DescribeBlock
-    def initialize(description, block)
+    def initialize(description, block, filename = "")
       @description = description
       @block = block
       @test_cases = []
       @before_each_hooks = []
       @after_each_hooks = []
+      @filename = filename
       load_test_cases
     end
 
@@ -23,6 +25,10 @@ module Tengu
 
     def pending_count
       @test_cases.count { |test_case| test_case.pending? }
+    end
+
+    def double(identifier = nil, args = {})
+      Double.new(identifier, args)
     end
 
     private
@@ -57,7 +63,7 @@ module Tengu
     end
 
     def it(description = nil, &block)
-      @test_cases << ItBlock.new(self, description, block)
+      @test_cases << ItBlock.new(self, description, block, @filename)
     end
 
     def xit(description, &block); end

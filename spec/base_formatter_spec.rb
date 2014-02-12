@@ -1,7 +1,7 @@
 require "tengu"
 require "stringio"
 
-describe "BaseFormatter" do
+describe Tengu::BaseFormatter do
   it "prints . when notified of success" do
     output = StringIO.new
     formatter = Tengu::BaseFormatter.new(output)

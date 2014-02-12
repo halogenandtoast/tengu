@@ -13,6 +13,7 @@ module Tengu
         formatter = Tengu::BaseFormatter.new
         runner = Tengu::Runner.new
         runner.run(files, [formatter])
+        exit runner.exit_status
       end
     end
   end

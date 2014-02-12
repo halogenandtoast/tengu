@@ -1,14 +1,18 @@
 module Tengu
   class Runner
+    attr_reader :exit_status
+
     def initialize(options = {})
       @options = options
       @overrides = []
+      @exit_status = 0
     end
 
     def notify(event, object)
       case event
       when :finished_case then reset_overrides
       when :override then record_override(*object)
+      when :failure then failure
       end
     end
 
@@ -26,6 +30,10 @@ module Tengu
     end
 
     private
+
+    def failure
+      @exit_status = 1
+    end
 
     def reset_overrides
       @overrides.reverse.each do |object, method|

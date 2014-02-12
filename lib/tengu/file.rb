@@ -37,7 +37,7 @@ module Tengu
     end
 
     def describe(description, &block)
-      @describes << DescribeBlock.new(description, block)
+      @describes << DescribeBlock.new(description, block, @io.path)
     end
   end
 end

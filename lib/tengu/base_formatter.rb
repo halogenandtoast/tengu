@@ -53,11 +53,17 @@ module Tengu
     end
 
     def display_failure(it_block)
-      puts it_block.description
+      print it_block.description
       it_block.expectations.each do |expectation|
         unless expectation.success?
-          puts expectation.message
+          print ": #{expectation.message}"
+          puts " - #{it_block.filename}"
         end
+      end
+      if it_block.errored?
+        print ": #{it_block.error}"
+        puts " - #{it_block.filename}"
+        puts it_block.error.backtrace
       end
     end
 

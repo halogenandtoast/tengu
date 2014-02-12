@@ -1,5 +1,3 @@
-require 'pry'
-
 describe Tengu::File do
   include Tengu
 

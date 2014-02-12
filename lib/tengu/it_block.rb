@@ -6,9 +6,9 @@ require "tengu/receiver"
 module Tengu
   class ItBlock
     include Matchers
-    attr_reader :description, :expectations
+    attr_reader :description, :expectations, :error, :filename
 
-    def initialize(describe_block, description, block)
+    def initialize(describe_block, description, block, filename = "")
       @describe_block = describe_block
       @description = description
       @block = block
@@ -16,6 +16,7 @@ module Tengu
       @pending = false
       @expectations = []
       @error = nil
+      @filename = filename
     end
 
     def run(listeners = [])
