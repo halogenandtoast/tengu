@@ -22,7 +22,7 @@ describe Tengu::DescribeBlock do
     allow(expected).to receive(:call)
     allow(ItBlock).to receive(:new).and_return(double(ItBlock, run: true))
     code = -> (wombat) { before :each, &expected; it {} }
-    DescribeBlock.new("test", code).run([])
+    DescribeBlock.new("test", code).run
     expect(expected).to have_received(:call)
   end
 
@@ -31,7 +31,7 @@ describe Tengu::DescribeBlock do
     allow(expected).to receive(:call)
     allow(ItBlock).to receive(:new).and_return(double(ItBlock, run: true))
     code = -> (wombat) { after :each, &expected; it {} }
-    DescribeBlock.new("test", code).run([])
+    DescribeBlock.new("test", code).run
     expect(expected).to have_received(:call)
   end
 end

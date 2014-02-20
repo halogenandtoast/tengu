@@ -6,6 +6,7 @@ module Tengu
       @options = options
       @overrides = []
       @exit_status = 0
+      @listeners = options.fetch(:listeners) { [] }
     end
 
     def notify(event, object)
@@ -16,13 +17,10 @@ module Tengu
       end
     end
 
-    def run(ios, formatters = [])
-      @files = ios.map { |io| Tengu::File.new(io) }
-      formatters.each { |formatter| formatter.notify(:started, self) }
-      @files.each { |file| file.run([self] + formatters) }
-      result = Result.new(@files)
-      formatters.each { |formatter| formatter.notify(:finished, result) }
-      result
+    def run(ios)
+      @files = create_files(ios)
+      notify_listeners(:started)
+      run_files(@files)
     end
 
     def record_override(object, method)
@@ -30,6 +28,26 @@ module Tengu
     end
 
     private
+    attr_reader :listeners
+
+    def create_files(ios)
+      ios.map { |io| Tengu::File.new(io, listeners: [self] + listeners) }
+    end
+
+    def notify_listeners(event)
+      listeners.each { |listener| listener.notify(event, self) }
+    end
+
+    def run_files(files)
+      files.each(&:run)
+      create_result(files)
+    end
+
+    def create_result(files)
+      result = Result.new(files)
+      listeners.each { |listener| listener.notify(:finished, result) }
+      result
+    end
 
     def failure
       @exit_status = 1

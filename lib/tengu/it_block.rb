@@ -8,7 +8,7 @@ module Tengu
     include Matchers
     attr_reader :description, :expectations, :error, :filename
 
-    def initialize(describe_block, description, block, filename = "")
+    def initialize(describe_block, description, block, filename = "", options = {})
       @describe_block = describe_block
       @description = description
       @block = block
@@ -17,17 +17,17 @@ module Tengu
       @expectations = []
       @error = nil
       @filename = filename
+      @listeners = options.fetch(:listeners) { [] }
     end
 
-    def run(listeners = [])
-      @listeners = listeners
+    def run
       begin
         instance_eval(&@block)
       rescue Exception => e
         @error = e
         @success = false
       end
-      notify(@listeners)
+      notify_listeners
     end
 
     def errored?
@@ -45,9 +45,10 @@ module Tengu
     end
 
     private
+    attr_reader :listeners
 
     def allow(object)
-      Allow.new(@listeners, object)
+      Allow.new(listeners, object)
     end
 
     def receive(message)
@@ -58,7 +59,7 @@ module Tengu
       Double.new(identifier, args)
     end
 
-    def notify(listeners)
+    def notify_listeners
       listeners.each do |listener|
         listener.notify(success_state, self)
         listener.notify(:finished_case, self)

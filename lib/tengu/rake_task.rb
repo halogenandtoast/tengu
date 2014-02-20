@@ -11,8 +11,8 @@ module Tengu
       task name do |_, task_args|
         files = Dir.glob("spec/**/*_spec.rb").map { |filename| ::File.open(filename, "r") }
         formatter = Tengu::BaseFormatter.new
-        runner = Tengu::Runner.new
-        runner.run(files, [formatter])
+        runner = Tengu::Runner.new(listeners: [formatter])
+        runner.run(files)
         exit runner.exit_status
       end
     end
