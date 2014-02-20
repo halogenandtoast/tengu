@@ -1,4 +1,3 @@
-require 'pry'
 module Tengu
   class DescribeBlock
     def initialize(description, block, filename = "")
