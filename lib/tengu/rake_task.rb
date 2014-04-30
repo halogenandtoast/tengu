@@ -9,9 +9,10 @@ module Tengu
     def initialize(name = :spec)
       desc "Run tengu tests"
       task name do |_, task_args|
-        files = Dir.glob("spec/**/*_spec.rb").map { |filename| ::File.open(filename, "r") }
+        $LOAD_PATH.unshift ::File.join(".", "spec")
         formatter = Tengu::BaseFormatter.new
         runner = Tengu::Runner.new(listeners: [formatter])
+        files = Dir.glob("spec/**/*_spec.rb").map { |filename| ::File.open(filename, "r") }
         runner.run(files)
         exit runner.exit_status
       end
